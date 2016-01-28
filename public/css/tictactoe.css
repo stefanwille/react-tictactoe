@@ -1,0 +1,58 @@
+
+.ticTacToe h1 {
+  margin-bottom: 100px;
+}
+
+.ticTacToe .grid {
+  position: relative;
+}
+
+.ticTacToe .grid .field {
+  position: absolute;
+}
+
+.ticTacToe .grid .field-0 {
+  top: 22px;
+  left: 10px;
+}
+
+.ticTacToe .grid .field-1 {
+  top: 22px;
+  left: 165px;
+}
+
+.ticTacToe .grid .field-2 {
+  top: 22px;
+  left: 320px;
+}
+
+.ticTacToe .grid .field-3 {
+  top: 174px;
+  left: 10px;
+}
+
+.ticTacToe .grid .field-4 {
+  top: 174px;
+  left: 165px;
+}
+
+.ticTacToe .grid .field-5 {
+  top: 174px;
+  left: 320px;
+}
+
+.ticTacToe .grid .field-6 {
+  top: 325px;
+  left: 10px;
+}
+
+.ticTacToe .grid .field-7 {
+  top: 325px;
+  left: 165px;
+}
+
+.ticTacToe .grid .field-8 {
+  top: 325px;
+  left: 320px;
+}
+

@@ -1,0 +1,12 @@
+{
+  "name": "React Tic Tac Toe",
+  "description": "Tic Tac Toe in React",
+  "keywords": [ "react", "reactjs" ],
+  "repository": "https://github.com/stefanwille/react-tictactoe",
+  "website": "http://www.stefanwille.com",
+  "success_url": "/",
+  "env" : {
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+  }
+}
+

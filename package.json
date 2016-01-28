@@ -1,0 +1,33 @@
+{
+  "name": "react-tictactoe",
+  "version": "0.0.0",
+  "description": "Tic Tac Toe in React.js.",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.4.3",
+    "express": "^4.4.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanwille/react-tictactoe.git"
+  },
+  "keywords": [
+    "react",
+    "tictactoe",
+    "comment",
+    "example"
+  ],
+  "author": "petehunt",
+  "bugs": {
+    "url": "https://github.com/stefanwille/react-tictactoe/issues"
+  },
+  "homepage": "https://github.com/reacstefanwilletjs/react-tictactoe",
+  "engines" : {
+    "node" : "0.12.x"
+  }
+}
