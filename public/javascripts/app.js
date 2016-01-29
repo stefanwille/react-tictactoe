@@ -1,10 +1,11 @@
+'use strict';
 
 var TicTacToe = React.createClass({
   render: function() {
     return (
       <div className="ticTacToe">
         <h1>Tic Tac Toe</h1>
-        <Grid onMouseDown={this.handleClick} fields={this.props.state.fields} />
+        <Grid onMouseDown={this.handleClick} fields={this.props.state.fields} winningCombination={this.props.state.winningCombination} />
       </div>
       );
   },
@@ -30,7 +31,7 @@ var Grid = React.createClass({
         <Field id="6" stone={this.props.fields[6]} onMouseDown={this.props.onMouseDown} />
         <Field id="7" stone={this.props.fields[7]} onMouseDown={this.props.onMouseDown} />
         <Field id="8" stone={this.props.fields[8]} onMouseDown={this.props.onMouseDown} />
-        <WinningCombination />
+        <WinningCombination id={this.props.winningCombination}/>
       </div>
     );
   }
@@ -38,14 +39,14 @@ var Grid = React.createClass({
 
 
 var Field = React.createClass({
-  imageFiles: {
+  IMAGE_FILE_MAPPING: {
     'x': '/images/stone-x.png',
     'o': '/images/stone-o.png',
     '': '/images/stone-none.png'
   },
 
   imageFile: function() {
-    return this.imageFiles[this.props.stone];
+    return this.IMAGE_FILE_MAPPING[this.props.stone];
   },
 
   render: function() {
@@ -62,20 +63,31 @@ var Field = React.createClass({
 
 var WinningCombination = React.createClass({
   render: function() {
-    var winningCombinationClass = "winningCombination winningCombination-7";
+    var winningCombinationClass = "winningCombination ";
+    if(this.props.id !== undefined) {
+      winningCombinationClass += "winningCombination-" + this.props.id;
+    } else {
+      winningCombinationClass += "winningCombination-none";
+    }
 
     return (
-      <img className={winningCombinationClass} src="/images/line.png" />
+      <img src="/images/line.png" className={winningCombinationClass} />
     );
   }
 });
+
+var INITIAL_STATE = {
+    fields: ['', '', '', '', '', '', '', '', ''],
+    nextStone: 'x',
+    winningCombination: undefined
+};
 
 var ticTacToeReducer = function(state, action) {
   console.log("ticTacToeReducer state:", state, "action:", action);
 
   // Redux rule: On state == undefined return the initial state.
   if(state === undefined) {
-    return { fields: ['o', 'o', 'o', 'x', 'x', 'x', 'o', 'o', 'x'], nextStone: 'x' };
+    return INITIAL_STATE;
   }
 
   switch(action.type) {
@@ -88,26 +100,59 @@ var ticTacToeReducer = function(state, action) {
     }
 };
 
-var selectField = function(action, state) {
+var selectField = function(action, oldState) {
   var fieldId = action.id;
-  var fields = state.fields;
+  var fields = oldState.fields;
 
-  if(fieldId === undefined) {
-    throw("Bad fieldId");
-  }
-  if(fields === undefined) {
-    throw("Bad fields");
+  if(oldState.winningCombination !== undefined) {
+    return INITIAL_STATE;
   }
 
+  // Only set a stone if there is none yet.
+  if(fields[fieldId] != '') {
+    return oldState;
+  }
+
+  // Make a new state object by cloning the old one.
+  var state = Object.assign({}, oldState);
+
+  // Which stone to set?
   var nextStone = state.nextStone;
-  var newNextStone = nextStone === 'x' ? 'o' : 'x';
+  state.nextStone = nextStone === 'x' ? 'o' : 'x';
 
-  // Copy the array
-  var newFields = fields.slice();
-  newFields[fieldId] = nextStone;
+  // Set the stone.
+  state.fields = fields.slice();
+  state.fields[fieldId] = nextStone;
 
-  return Object.assign({}, state, { fields: newFields, nextStone: newNextStone })
-}
+  // Find the winner (if any).
+  var oldWinningCombination = state.winningCombination;
+  var newWinningCombination = (oldWinningCombination === undefined) ? winningCombination(state.fields) : oldWinningCombination;
+  state.winningCombination = newWinningCombination;
+
+  return state;
+};
+
+var WINNING_COMBINATIONS = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6]
+];
+
+var winningCombination = function(fields) {
+  for(var i = 0; i < WINNING_COMBINATIONS.length; i++) {
+    var combination = WINNING_COMBINATIONS[i];
+    if(fields[combination[0]] !== '' && fields[combination[0]] === fields[combination[1]] && fields[combination[1]] === fields[combination[2]]) {
+      return i;
+    }
+  }
+
+  return undefined;
+};
 
 var render = function() {
   ReactDOM.render(
@@ -118,8 +163,13 @@ var render = function() {
     );
 };
 
+var logState = function() {
+  console.log("New state:", store.getState());
+}
+
 var store = Redux.createStore(ticTacToeReducer);
 store.subscribe(render);
+store.subscribe(logState);
 
 render();
 
