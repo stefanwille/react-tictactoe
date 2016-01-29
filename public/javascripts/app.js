@@ -11,7 +11,6 @@ var TicTacToe = React.createClass({
   },
 
   handleClick: function(fieldId) {
-    console.log("clicked", fieldId);
     store.dispatch({type: 'SELECT_FIELD', id: fieldId})
   }
 });
@@ -42,7 +41,7 @@ var Field = React.createClass({
   IMAGE_FILE_MAPPING: {
     'x': '/images/stone-x.png',
     'o': '/images/stone-o.png',
-    '': '/images/stone-none.png'
+    '':  '/images/stone-none.png'
   },
 
   imageFile: function() {

@@ -4,8 +4,6 @@
   "description": "Tic Tac Toe in React.js.",
   "main": "server.js",
   "dependencies": {
-    "body-parser": "^1.4.3",
-    "express": "^4.4.5"
   },
   "devDependencies": {},
   "scripts": {
@@ -19,15 +17,13 @@
   "keywords": [
     "react",
     "tictactoe",
-    "comment",
     "example"
   ],
-  "author": "petehunt",
+  "author": "stefanwille",
   "bugs": {
     "url": "https://github.com/stefanwille/react-tictactoe/issues"
   },
-  "homepage": "https://github.com/reacstefanwilletjs/react-tictactoe",
+  "homepage": "https://github.com/stefanwille/react-tictactoe",
   "engines" : {
-    "node" : "0.12.x"
   }
 }
