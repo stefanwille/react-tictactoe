@@ -1,6 +1,14 @@
+@font-face {
+ font-family: 'levibrush';
+ src: url('/fonts/levibrush.ttf') format('truetype');
+}
 
 .ticTacToe h1 {
-  margin-bottom: 100px;
+  font-family: 'levibrush';
+  font-size: 90px;
+  margin-top: 100px;
+  margin-bottom: 80px;
+  text-transform: uppercase;
 }
 
 .ticTacToe .grid {
