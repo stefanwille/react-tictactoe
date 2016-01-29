@@ -30,6 +30,7 @@ var Grid = React.createClass({
         <Field id="6" stone={this.props.fields[6]} onMouseDown={this.props.onMouseDown} />
         <Field id="7" stone={this.props.fields[7]} onMouseDown={this.props.onMouseDown} />
         <Field id="8" stone={this.props.fields[8]} onMouseDown={this.props.onMouseDown} />
+        <WinningCombination />
       </div>
     );
   }
@@ -59,12 +60,22 @@ var Field = React.createClass({
   }
 });
 
+var WinningCombination = React.createClass({
+  render: function() {
+    var winningCombinationClass = "winningCombination winningCombination-7";
+
+    return (
+      <img className={winningCombinationClass} src="/images/line.png" />
+    );
+  }
+});
+
 var ticTacToeReducer = function(state, action) {
   console.log("ticTacToeReducer state:", state, "action:", action);
 
   // Redux rule: On state == undefined return the initial state.
   if(state === undefined) {
-    return { fields: ['', '', '', '', '', '', '', '', ''], nextStone: 'x' };
+    return { fields: ['o', 'o', 'o', 'x', 'x', 'x', 'o', 'o', 'x'], nextStone: 'x' };
   }
 
   switch(action.type) {
