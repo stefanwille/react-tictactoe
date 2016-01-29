@@ -1,11 +1,17 @@
+
 var TicTacToe = React.createClass({
   render: function() {
     return (
       <div className="ticTacToe">
         <h1>Tic Tac Toe</h1>
-        <Grid />
+        <Grid onMouseDown={this.handleClick} fields={this.props.state.fields} />
       </div>
-    );
+      );
+  },
+
+  handleClick: function(fieldId) {
+    console.log("clicked", fieldId);
+    store.dispatch({type: 'SELECT_FIELD', id: fieldId})
   }
 });
 
@@ -15,15 +21,15 @@ var Grid = React.createClass({
     return (
       <div className="grid">
         <img src="/images/grid.png" />
-        <Field id="0" stone="o" />
-        <Field id="1" stone="x" />
-        <Field id="2" stone="o" />
-        <Field id="3" stone="o" />
-        <Field id="4" stone="x" />
-        <Field id="5" stone="o" />
-        <Field id="6" stone="" />
-        <Field id="7" stone="o" />
-        <Field id="8" stone="x" />
+        <Field id="0" stone={this.props.fields[0]} onMouseDown={this.props.onMouseDown} />
+        <Field id="1" stone={this.props.fields[1]} onMouseDown={this.props.onMouseDown} />
+        <Field id="2" stone={this.props.fields[2]} onMouseDown={this.props.onMouseDown} />
+        <Field id="3" stone={this.props.fields[3]} onMouseDown={this.props.onMouseDown} />
+        <Field id="4" stone={this.props.fields[4]} onMouseDown={this.props.onMouseDown} />
+        <Field id="5" stone={this.props.fields[5]} onMouseDown={this.props.onMouseDown} />
+        <Field id="6" stone={this.props.fields[6]} onMouseDown={this.props.onMouseDown} />
+        <Field id="7" stone={this.props.fields[7]} onMouseDown={this.props.onMouseDown} />
+        <Field id="8" stone={this.props.fields[8]} onMouseDown={this.props.onMouseDown} />
       </div>
     );
   }
@@ -31,12 +37,6 @@ var Grid = React.createClass({
 
 
 var Field = React.createClass({
-  getInitialState: function() {
-    return {
-      stone: this.props.stone
-    }
-  },
-
   imageFiles: {
     'x': '/images/stone-x.png',
     'o': '/images/stone-o.png',
@@ -44,34 +44,71 @@ var Field = React.createClass({
   },
 
   imageFile: function() {
-    return this.imageFiles[this.state.stone];
-  },
-
-  handleClick: function() {
-    switch(this.state.stone) {
-      case 'x':
-        this.setState({stone: 'o'});
-        break;
-      case 'o':
-        this.setState({stone: ''});
-        break;
-      case '':
-        this.setState({stone: 'x'});
-        break;
-    }
+    return this.imageFiles[this.props.stone];
   },
 
   render: function() {
     var fieldClass = "field field-" + this.props.id;
     return (
       <img src={this.imageFile()} className={fieldClass} onMouseDown={this.handleClick} />
-    );
-  }
-})
+      );
+  },
 
-ReactDOM.render(
-  (
-    <TicTacToe />
-  ),
-  document.getElementById('content')
-);
+  handleClick: function() {
+    this.props.onMouseDown(this.props.id);
+  }
+});
+
+var ticTacToeReducer = function(state, action) {
+  console.log("ticTacToeReducer state:", state, "action:", action);
+
+  // Redux rule: On state == undefined return the initial state.
+  if(state === undefined) {
+    return { fields: ['', '', '', '', '', '', '', '', ''], nextStone: 'x' };
+  }
+
+  switch(action.type) {
+    case 'SELECT_FIELD':
+      return selectField(action, state);
+
+    default:
+      // Redux rule: For unknown actions return the given state.
+      return state;
+    }
+};
+
+var selectField = function(action, state) {
+  var fieldId = action.id;
+  var fields = state.fields;
+
+  if(fieldId === undefined) {
+    throw("Bad fieldId");
+  }
+  if(fields === undefined) {
+    throw("Bad fields");
+  }
+
+  var nextStone = state.nextStone;
+  var newNextStone = nextStone === 'x' ? 'o' : 'x';
+
+  // Copy the array
+  var newFields = fields.slice();
+  newFields[fieldId] = nextStone;
+
+  return Object.assign({}, state, { fields: newFields, nextStone: newNextStone })
+}
+
+var render = function() {
+  ReactDOM.render(
+    (
+      <TicTacToe state={store.getState()}/>
+      ),
+    document.getElementById('content')
+    );
+};
+
+var store = Redux.createStore(ticTacToeReducer);
+store.subscribe(render);
+
+render();
+
