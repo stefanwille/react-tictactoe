@@ -63,15 +63,15 @@ var Field = React.createClass({
 
 var WinningCombination = React.createClass({
   render: function() {
-    var winningCombinationClass = "winningCombination ";
-    if(this.props.id !== undefined) {
-      winningCombinationClass += "winningCombination-" + this.props.id;
+    var className = "winningCombination ";
+    if(this.props.id) {
+      className += "winningCombination-" + this.props.id;
     } else {
-      winningCombinationClass += "winningCombination-none";
+      className += "winningCombination-none";
     }
 
     return (
-      <img src="/images/line.png" className={winningCombinationClass} />
+      <img src="/images/line.png" className={className} />
     );
   }
 });
@@ -79,7 +79,8 @@ var WinningCombination = React.createClass({
 var INITIAL_STATE = {
     fields: ['', '', '', '', '', '', '', '', ''],
     nextStone: 'x',
-    winningCombination: undefined
+    winningCombination: undefined,
+    gameIsOver: false
 };
 
 var ticTacToeReducer = function(state, action) {
@@ -104,7 +105,7 @@ var selectField = function(action, oldState) {
   var fieldId = action.id;
   var fields = oldState.fields;
 
-  if(oldState.winningCombination !== undefined) {
+  if(oldState.gameIsOver) {
     return INITIAL_STATE;
   }
 
@@ -126,8 +127,11 @@ var selectField = function(action, oldState) {
 
   // Find the winner (if any).
   var oldWinningCombination = state.winningCombination;
-  var newWinningCombination = (oldWinningCombination === undefined) ? winningCombination(state.fields) : oldWinningCombination;
-  state.winningCombination = newWinningCombination;
+  state.winningCombination = (oldWinningCombination) ? oldWinningCombination : winningCombination(state.fields);
+
+  var isTie = !state.winningCombination && numberOfStones(state.fields) == 9;
+
+  state.gameIsOver = state.winningCombination || isTie;
 
   return state;
 };
@@ -147,12 +151,18 @@ var winningCombination = function(fields) {
   for(var i = 0; i < WINNING_COMBINATIONS.length; i++) {
     var combination = WINNING_COMBINATIONS[i];
     if(fields[combination[0]] !== '' && fields[combination[0]] === fields[combination[1]] && fields[combination[1]] === fields[combination[2]]) {
-      return i;
+      return i.toString();
     }
   }
 
   return undefined;
 };
+
+var numberOfStones = function(fields) {
+  return fields.reduce(function(sum, stone) {
+    return sum + ((stone != '') ? 1 : 0);
+  }, 0);
+}
 
 var render = function() {
   ReactDOM.render(
