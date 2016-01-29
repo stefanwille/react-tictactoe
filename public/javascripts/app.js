@@ -38,6 +38,12 @@ var Grid = React.createClass({
 
 
 var Field = React.createClass({
+  render: function() {
+    return (
+      <img src={this.imageFile()} className={"field field-" + this.props.id} onMouseDown={this.handleClick} />
+    );
+  },
+
   IMAGE_FILE_MAPPING: {
     'x': '/images/stone-x.png',
     'o': '/images/stone-o.png',
@@ -48,17 +54,11 @@ var Field = React.createClass({
     return this.IMAGE_FILE_MAPPING[this.props.stone];
   },
 
-  render: function() {
-    var fieldClass = "field field-" + this.props.id;
-    return (
-      <img src={this.imageFile()} className={fieldClass} onMouseDown={this.handleClick} />
-      );
-  },
-
   handleClick: function() {
     this.props.onMouseDown(this.props.id);
   }
 });
+
 
 var WinningCombination = React.createClass({
   render: function() {
