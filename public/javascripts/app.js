@@ -6,12 +6,12 @@ var TicTacToe = React.createClass({
     return (
       <div className="ticTacToe">
         <h1>Tic Tac Toe</h1>
-        <Grid onMouseDown={this.handleClick} fields={this.props.state.fields} winningCombination={this.props.state.winningCombination} />
+        <Grid onFieldClicked={this.handleFieldClick} fields={this.props.state.fields} winningCombination={this.props.state.winningCombination} />
       </div>
       );
   },
 
-  handleClick: function(fieldId) {
+  handleFieldClick: function(fieldId) {
     store.dispatch({type: 'SELECT_FIELD', id: fieldId})
   }
 });
@@ -22,16 +22,16 @@ var Grid = React.createClass({
     return (
       <div className="grid">
         <img src="/images/grid.png" />
-        <Field id="0" stone={this.props.fields[0]} onMouseDown={this.props.onMouseDown} />
-        <Field id="1" stone={this.props.fields[1]} onMouseDown={this.props.onMouseDown} />
-        <Field id="2" stone={this.props.fields[2]} onMouseDown={this.props.onMouseDown} />
-        <Field id="3" stone={this.props.fields[3]} onMouseDown={this.props.onMouseDown} />
-        <Field id="4" stone={this.props.fields[4]} onMouseDown={this.props.onMouseDown} />
-        <Field id="5" stone={this.props.fields[5]} onMouseDown={this.props.onMouseDown} />
-        <Field id="6" stone={this.props.fields[6]} onMouseDown={this.props.onMouseDown} />
-        <Field id="7" stone={this.props.fields[7]} onMouseDown={this.props.onMouseDown} />
-        <Field id="8" stone={this.props.fields[8]} onMouseDown={this.props.onMouseDown} />
-        <WinningCombination id={this.props.winningCombination}/>
+        <Field id="0" stone={this.props.fields[0]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="1" stone={this.props.fields[1]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="2" stone={this.props.fields[2]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="3" stone={this.props.fields[3]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="4" stone={this.props.fields[4]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="5" stone={this.props.fields[5]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="6" stone={this.props.fields[6]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="7" stone={this.props.fields[7]} onFieldClicked={this.props.onFieldClicked} />
+        <Field id="8" stone={this.props.fields[8]} onFieldClicked={this.props.onFieldClicked} />
+        <WinnerBar id={this.props.winningCombination}/>
       </div>
     );
   }
@@ -56,14 +56,14 @@ var Field = React.createClass({
   },
 
   handleClick: function() {
-    this.props.onMouseDown(this.props.id);
+    this.props.onFieldClicked(this.props.id);
   }
 });
 
 
-var WinningCombination = React.createClass({
+var WinnerBar = React.createClass({
   render: function() {
-    var className = "winningCombination ";
+    var className = "winnerBar ";
     if(this.props.id) {
       className += "winningCombination-" + this.props.id;
     } else {
