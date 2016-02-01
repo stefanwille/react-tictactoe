@@ -1,5 +1,6 @@
 'use strict';
 
+
 var TicTacToe = React.createClass({
   render: function() {
     return (
@@ -161,7 +162,7 @@ var numberOfStones = function(fields) {
   return fields.reduce(function(sum, stone) {
     return sum + ((stone != '') ? 1 : 0);
   }, 0);
-}
+};
 
 var render = function() {
   ReactDOM.render(
@@ -174,7 +175,7 @@ var render = function() {
 
 var logState = function() {
   console.log("New state:", store.getState());
-}
+};
 
 var store = Redux.createStore(ticTacToeReducer);
 store.subscribe(render);
