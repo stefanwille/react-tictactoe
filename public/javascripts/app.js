@@ -21,7 +21,7 @@ var Grid = React.createClass({
   render: function() {
     return (
       <div className="grid">
-        <img src="/images/grid.png" />
+        <img src="images/grid.png" />
         <Field id="0" stone={this.props.fields[0]} onFieldClicked={this.props.onFieldClicked} />
         <Field id="1" stone={this.props.fields[1]} onFieldClicked={this.props.onFieldClicked} />
         <Field id="2" stone={this.props.fields[2]} onFieldClicked={this.props.onFieldClicked} />
@@ -46,9 +46,9 @@ var Field = React.createClass({
   },
 
   IMAGE_FILE_MAPPING: {
-    'x': '/images/stone-x.png',
-    'o': '/images/stone-o.png',
-    '':  '/images/stone-none.png'
+    'x': 'images/stone-x.png',
+    'o': 'images/stone-o.png',
+    '':  'images/stone-none.png'
   },
 
   imageFile: function() {
@@ -71,7 +71,7 @@ var WinnerBar = React.createClass({
     }
 
     return (
-      <img src="/images/line.png" className={className} />
+      <img src="images/line.png" className={className} />
     );
   }
 });
