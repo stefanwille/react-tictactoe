@@ -8,7 +8,7 @@ var TicTacToe = React.createClass({
         <h1>Tic Tac Toe</h1>
         <Grid onFieldClicked={this.handleFieldClick} fields={this.props.state.fields} winningCombination={this.props.state.winningCombination} />
       </div>
-      );
+    );
   },
 
   handleFieldClick: function(fieldId) {
@@ -168,7 +168,7 @@ var render = function() {
   ReactDOM.render(
     (
       <TicTacToe state={store.getState()}/>
-      ),
+    ),
     document.getElementById('content')
     );
 };
