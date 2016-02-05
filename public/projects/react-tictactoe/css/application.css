@@ -90,6 +90,7 @@ body {
 
 .winnerBar {
   position: absolute;
+  opacity: 0.90;
 }
 
 .winningCombination-0 {
