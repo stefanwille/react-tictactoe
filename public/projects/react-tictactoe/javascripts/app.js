@@ -6,13 +6,21 @@ var TicTacToe = React.createClass({
     return (
       <div className="ticTacToe">
         <h1>Tic Tac Toe</h1>
-        <Grid onFieldClicked={this.handleFieldClick} fields={this.props.state.fields} winningCombination={this.props.state.winningCombination} />
+        <Grid onFieldClicked={this.handleFieldClick}
+              onWinnerBarClicked={this.handleWinnerBarClicked}
+              fields={this.props.state.fields}
+              winningCombination={this.props.state.winningCombination}
+        />
       </div>
     );
   },
 
   handleFieldClick: function(fieldId) {
     store.dispatch({type: 'SELECT_FIELD', id: fieldId})
+  },
+
+  handleWinnerBarClicked: function() {
+    store.dispatch({type: 'RESET_GAME'})
   }
 });
 
@@ -31,7 +39,7 @@ var Grid = React.createClass({
         <Field id="6" stone={this.props.fields[6]} onFieldClicked={this.props.onFieldClicked} />
         <Field id="7" stone={this.props.fields[7]} onFieldClicked={this.props.onFieldClicked} />
         <Field id="8" stone={this.props.fields[8]} onFieldClicked={this.props.onFieldClicked} />
-        <WinnerBar id={this.props.winningCombination}/>
+        <WinnerBar id={this.props.winningCombination} onClick={this.props.onWinnerBarClicked} />
       </div>
     );
   }
@@ -71,7 +79,7 @@ var WinnerBar = React.createClass({
     }
 
     return (
-      <img src="/projects/react-tictactoe/images/line.png" className={className} />
+      <img src="/projects/react-tictactoe/images/line.png" className={className} onClick={this.props.onClick} />
     );
   }
 });
@@ -94,6 +102,9 @@ var ticTacToeReducer = function(state, action) {
   switch(action.type) {
     case 'SELECT_FIELD':
       return selectField(action, state);
+
+    case 'RESET_GAME':
+      return INITIAL_STATE;
 
     default:
       // Redux rule: For unknown actions return the given state.
