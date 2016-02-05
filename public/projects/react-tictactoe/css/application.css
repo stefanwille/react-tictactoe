@@ -12,7 +12,7 @@ body {
 
 @font-face {
   font-family: "levibrush";
-  src: url("../fonts/levibrush.ttf") format("truetype");
+  src: url("/projects/react-tictactoe/fonts/levibrush.ttf") format("truetype");
 }
 
 #content {
