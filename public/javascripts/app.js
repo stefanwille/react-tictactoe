@@ -29,7 +29,7 @@ var Grid = React.createClass({
   render: function() {
     return (
       <div className="grid">
-        <img src="/projects/react-tictactoe/images/grid.png" />
+        <img src="/images/grid.png" />
         <Field id="0" stone={this.props.fields[0]} onFieldClicked={this.props.onFieldClicked} />
         <Field id="1" stone={this.props.fields[1]} onFieldClicked={this.props.onFieldClicked} />
         <Field id="2" stone={this.props.fields[2]} onFieldClicked={this.props.onFieldClicked} />
@@ -54,9 +54,9 @@ var Field = React.createClass({
   },
 
   IMAGE_FILE_MAPPING: {
-    'x': '/projects/react-tictactoe/images/stone-x.png',
-    'o': '/projects/react-tictactoe/images/stone-o.png',
-    '':  '/projects/react-tictactoe/images/stone-none.png'
+    'x': '/images/stone-x.png',
+    'o': '/images/stone-o.png',
+    '':  '/images/stone-none.png'
   },
 
   imageFile: function() {
@@ -79,7 +79,7 @@ var WinnerBar = React.createClass({
     }
 
     return (
-      <img src="/projects/react-tictactoe/images/line.png" className={className} onClick={this.props.onClick} />
+      <img src="/images/line.png" className={className} onClick={this.props.onClick} />
     );
   }
 });
@@ -171,7 +171,7 @@ var winningCombination = function(fields) {
 
 var numberOfStones = function(fields) {
   return fields.reduce(function(sum, stone) {
-    return sum + ((stone != '') ? 1 : 0);
+    return sum + ((stone !== '') ? 1 : 0);
   }, 0);
 };
 

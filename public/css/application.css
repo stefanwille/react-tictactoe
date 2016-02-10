@@ -15,7 +15,7 @@ body {
 
 @font-face {
   font-family: "levibrush";
-  src: url("/projects/react-tictactoe/fonts/levibrush.ttf") format("truetype");
+  src: url("/fonts/levibrush.ttf") format("truetype");
 }
 
 #content {
